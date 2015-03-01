@@ -1,19 +1,5 @@
-#! /bin/bash -x
+#! /bin/bash
 # Create TIL note
-
-function replace_title {
-    local filename=$1
-    shift
-
-    local tag=$1
-    shift
-
-    TEMPFILE=mktemp
-    echo "2s/.*/title: $*/" > $TEMPFILE
-    echo "3s/.*/categories: $tag/" >> $TEMPFILE
-
-    sed -i "" -f $TEMPFILE $filename
-}
 
 # These variables shouldn't change during execution
 readonly TEMPLATE=templates/til.md
@@ -22,24 +8,39 @@ readonly DIR=$TAG
 readonly FILE=$(date '+%s')
 readonly ENTRY="$DIR/$FILE.md"
 
-if [[ ! -d $DIR ]]; then
-    mkdir $DIR
+
+function replace_title {
+  local filename=$1
+  shift
+
+  local tag=$1
+  shift
+
+  readonly tempfile=mktemp
+  echo "2s/.*/title: $*/" > $tempfile
+  echo "3s/.*/categories: $tag/" >> $tempfile
+
+  sed -i "" -f $tempfile $filename
+}
+
+if [[ ! -d "${DIR}" ]]; then
+  mkdir $DIR
 fi
 
-if [[ -f $TEMPLATE ]]; then
-    cp $TEMPLATE $ENTRY
+if [[ -f "${TEMPLATE}" ]]; then
+  cp $TEMPLATE $ENTRY
 else 
-    touch $ENTRY
+  touch $ENTRY
 fi
 
-title=$*
+readonly title=$*
 # If there's a title on the command line
-if [[ ! -z $title ]]; then
-    replace_title $ENTRY $TAG $title
+if [[ ! -z "${title}" ]]; then
+  replace_title $ENTRY $TAG $title
 fi
 
 if [[ $EDITOR == "vim" ]]; then
-    COMMAND="-c startinsert!"
-    SUFFIX=" +"
+  readonly command="-c startinsert!"
+  readonly suffix=" +"
 fi
-exec $EDITOR $COMMAND $SUFFIX $ENTRY
+exec $EDITOR $command $suffix $ENTRY
