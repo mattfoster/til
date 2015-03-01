@@ -6,8 +6,13 @@ readonly TEMPLATE=templates/til.md
 readonly TAG=$(basename $0)
 readonly DIR=$TAG
 readonly FILE=$(date '+%s')
-readonly ENTRY="$DIR/$FILE.md"
 
+# I'm hoping you can set this from outside the script
+: ${TIL_DIR:=~/Dropbox/til}
+readonly TIL_DIR
+
+readonly TIL_PATH="${TIL_DIR}/${DIR}"
+readonly ENTRY="${TIL_PATH}/${FILE}.md"
 
 function replace_title {
   local filename=$1
@@ -23,15 +28,31 @@ function replace_title {
   sed -i "" -f $tempfile $filename
 }
 
-if [[ ! -d "${DIR}" ]]; then
-  mkdir $DIR
-fi
+function make_path {
+  local path=$1
+  shift
 
-if [[ -f "${TEMPLATE}" ]]; then
-  cp $TEMPLATE $ENTRY
-else 
-  touch $ENTRY
-fi
+  if [[ ! -d "${path}" ]]; then
+    mkdir -p $path
+  fi
+}
+
+function create_entry_from_template {
+  local filename=$1
+  shift
+
+  local template=$1
+  shift
+
+  if [[ -f "${template}" ]]; then
+    cp $template $filename
+  else 
+    touch $filename
+  fi
+}
+
+make_path $TIL_PATH
+create_entry_from_template $ENTRY $TEMPLATE
 
 readonly title=$*
 # If there's a title on the command line
