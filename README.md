@@ -7,7 +7,7 @@ tools to sharpen.
 
     export TIL_DIR=~/til # Default is ~/Dropbox/til
 
-    til That mattfoster wrote an interesting too to store TIL info
+    til That @mattfoster wrote an interesting tool to store TIL info
     # $EDITOR will appear, and you'll edit your note to you ❤'s content. 
     # Output will appear in `~/til/til/<current_timestamp>.md`
 
