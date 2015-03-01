@@ -16,4 +16,4 @@ But, I want something easy to use on different boxes,  without having to worry a
 
 I think something which automatically makes a list of new stuff would be fun too, maybe with tags.
 
-Would this also work with 'tool sharpening' ideas? I saw a peeped screencast where someone had a file in dropbox in which they listed stuff that they wanted to make faster. I want to emulate this.
+Would this also work with 'tool sharpening' ideas? I saw a peepcode screencast where someone had a file in dropbox in which they listed stuff that they wanted to make faster. I want to emulate this.
