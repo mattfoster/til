@@ -16,7 +16,7 @@ function replace_title {
   local tag=$1
   shift
 
-  readonly tempfile=mktemp
+  readonly tempfile=$(mktemp)
   echo "2s/.*/title: $*/" > $tempfile
   echo "3s/.*/categories: $tag/" >> $tempfile
 
