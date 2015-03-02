@@ -2,7 +2,6 @@
 # Create TIL note
 
 # These variables shouldn't change during execution
-readonly TEMPLATE=templates/til.md
 readonly TAG=$(basename $0)
 readonly DIR=$TAG
 readonly FILE=$(date '+%s')
@@ -13,6 +12,13 @@ readonly TIL_DIR
 
 readonly TIL_PATH="${TIL_DIR}/${DIR}"
 readonly ENTRY="${TIL_PATH}/${FILE}.md"
+
+read -r -d '' "TEMPLATE" << "EOM"
+---
+title: 
+categories: til
+---
+EOM
 
 function replace_title {
   local filename=$1
@@ -37,22 +43,9 @@ function make_path {
   fi
 }
 
-function create_entry_from_template {
-  local filename=$1
-  shift
-
-  local template=$1
-  shift
-
-  if [[ -f "${template}" ]]; then
-    cp $template $filename
-  else 
-    touch $filename
-  fi
-}
-
 make_path $TIL_PATH
-create_entry_from_template $ENTRY $TEMPLATE
+printf "%s\n" "$TEMPLATE" > $ENTRY
+printf "\n\n" >> $ENTRY 
 
 readonly title=$*
 # If there's a title on the command line
